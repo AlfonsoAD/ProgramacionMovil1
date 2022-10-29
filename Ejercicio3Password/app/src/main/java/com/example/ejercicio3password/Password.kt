@@ -2,11 +2,11 @@ package com.example.ejercicio3password
 
 import kotlin.math.floor
 
-class Password(private var longitud: Int) {
+class Password(private var longitud: Int ) {
 
     private var contrasena: String = ""
 
-    init {
+    init{
         this.contrasena = generaContrasena()
     }
 
@@ -14,9 +14,9 @@ class Password(private var longitud: Int) {
         return this.longitud
     }
 
-    fun setLongitud(longitud: Int) {
+    /*fun setLongitud(longitud: Int) {
         this.longitud = longitud
-    }
+    }*/
 
     fun getContrasena(): String {
         return this.contrasena
@@ -24,21 +24,20 @@ class Password(private var longitud: Int) {
 
     fun generaContrasena(): String {
         var contra = ""
+        val mayus = 'a'..'z'
+        val minus = 'A'..'Z'
+        val num = 0..9
 
-        for (i in 0..this.longitud) {
-            val numRandom = floor(((0..10).random() * 3 + 1).toDouble())
-
+        for (i in 0..this.longitud){
+            val numRandom = floor(((0..10).random() * 9 + 1).toDouble())
             if (numRandom.toInt() == 1) {
-                val minusculas: Char = ((floor(((0..10).random() * (123 - 97) + 97).toDouble())).toInt()).toChar()
-                    contra += minusculas.toString()
-                } else if (numRandom.toInt() == 2) {
-                    val mayusculas: Char = ((floor(((0..10).random() * (91 - 65) + 65).toDouble())).toInt()).toChar()
-                    contra += mayusculas.toString()
-                } else {
-                    val numeros: Char = ((floor(((0..10).random() * (58 - 48) + 48).toDouble())).toInt()).toChar()
-                    contra += numeros.toString()
-                }
+                contra += num.random().toString()
+            } else if (numRandom.toInt() == 2) {
+                contra += mayus.random().toString()
+            } else {
+                contra += minus.random().toString()
             }
+        }
         return contra
     }
 
@@ -47,12 +46,12 @@ class Password(private var longitud: Int) {
         var minusculas = 0
         var mayusculas = 0
 
-        for (i in 0..contrasena.length) {
-            if ((contrasena[i].toString()).toInt() in 97..122) {
+        for (i in 0..this.contrasena.length) {
+            if (this.contrasena.matches("^[a-z]*$".toRegex())) {
                 minusculas += 1
-            } else if ((contrasena[i].toString()).toInt() in 65..90) {
+            } else if (this.contrasena.matches("^[A-Z]*$".toRegex())) {
                 mayusculas += 1
-            } else {
+            } else if(this.contrasena.matches("^[0-9]*$".toRegex())){
                 numeros += 1
             }
         }
